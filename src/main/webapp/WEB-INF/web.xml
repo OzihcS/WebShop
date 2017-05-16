@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
+
+    <listener>
+        <listener-class>listener.OnStartServletContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>captcha</param-name>
+        <!--<param-value>session</param-value>-->
+        <param-value>context</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>registration timeout</param-name>
+        <param-value>30</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>context type</param-name>
+        <!--<param-value>cookie</param-value>-->
+        <param-value>hidden field</param-value>
+    </context-param>
+
+</web-app>
