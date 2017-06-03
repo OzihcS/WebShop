@@ -14,9 +14,7 @@
         <session-timeout>1</session-timeout>
     </session-config>
 
-    <listener>
-        <listener-class>listener.OnStartServletContextListener</listener-class>
-    </listener>
+    <!--Init params-->
 
     <context-param>
         <param-name>captcha</param-name>
@@ -28,11 +26,51 @@
         <param-name>registration timeout</param-name>
         <param-value>30</param-value>
     </context-param>
-    
+
     <context-param>
         <param-name>context type</param-name>
         <!--<param-value>cookie</param-value>-->
         <param-value>hidden field</param-value>
     </context-param>
+
+    <context-param>
+        <param-name>locales</param-name>
+        <param-value>en ru</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>default_locale</param-name>
+        <param-value>en</param-value>
+    </context-param>
+
+    <!--Listeners-->
+
+    <listener>
+        <listener-class>listener.OnStartServletContextListener</listener-class>
+    </listener>
+
+
+    <!--Filters-->
+
+    <filter>
+        <filter-name>LocaleFilter</filter-name>
+        <filter-class>filter.LocaleFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>NoCacheFilter</filter-name>
+        <filter-class>filter.NoCacheFilter</filter-class>
+    </filter>
+    <!--Filters mapping-->
+
+    <filter-mapping>
+        <filter-name>LocaleFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>NoCacheFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static util.Constants.Attributes;
+import static util.Constants.Attributes.User.*;
 import static util.Constants.ErrorMessages;
 
 /**
@@ -41,12 +41,11 @@ public class UserValidator {
         String firstName = userDTO.getFirstName();
 
         if (firstName == null || firstName.isEmpty()) {
-            errors.put(Attributes.FIRST_NAME, ErrorMessages.FIRST_NAME_EMPTY);
+            errors.put(FIRST_NAME, ErrorMessages.FIRST_NAME_EMPTY);
             return;
         }
         if (!NAME_REGEX.matcher(firstName).matches()) {
-            errors.put(Attributes.FIRST_NAME, ErrorMessages.WRONG_INPUT_NAME);
-            return;
+            errors.put(FIRST_NAME, ErrorMessages.WRONG_INPUT_NAME);
         }
     }
 
@@ -54,12 +53,11 @@ public class UserValidator {
         String lastName = userDTO.getLastName();
 
         if (lastName == null || lastName.isEmpty()) {
-            errors.put(Attributes.LAST_NAME, ErrorMessages.LAST_NAME_EMPTY);
+            errors.put(LAST_NAME, ErrorMessages.LAST_NAME_EMPTY);
             return;
         }
         if (!NAME_REGEX.matcher(lastName).matches()) {
-            errors.put(Attributes.LAST_NAME, ErrorMessages.WRONG_INPUT_NAME);
-            return;
+            errors.put(LAST_NAME, ErrorMessages.WRONG_INPUT_NAME);
         }
     }
 
@@ -67,13 +65,12 @@ public class UserValidator {
         String email = userDTO.getEmail();
 
         if (email == null || email.isEmpty()) {
-            errors.put(Attributes.EMAIL, ErrorMessages.EMAIL_EMPTY);
+            errors.put(EMAIL, ErrorMessages.EMAIL_EMPTY);
             return;
         }
 
         if (!EMAIL_REGEX.matcher(email).matches()) {
-            errors.put(Attributes.EMAIL, ErrorMessages.WRONG_INPUT_EMAIL);
-            return;
+            errors.put(EMAIL, ErrorMessages.WRONG_INPUT_EMAIL);
         }
     }
 
@@ -82,14 +79,14 @@ public class UserValidator {
         String passwordConfirmation = userDTO.getPasswordConfirmation();
 
         if (password.length() < 5 || passwordConfirmation.length() < 5) {
-            errors.put(Attributes.PASSWORD, ErrorMessages.SHORT_PASSWORD);
-            errors.put(Attributes.PASSWORD_CONFIRMATION, ErrorMessages.SHORT_PASSWORD);
+            errors.put(PASSWORD, ErrorMessages.SHORT_PASSWORD);
+            errors.put(PASSWORD_CONFIRMATION, ErrorMessages.SHORT_PASSWORD);
             return;
         }
 
         if (!password.equals(passwordConfirmation)) {
-            errors.put(Attributes.PASSWORD, ErrorMessages.PASSWORDS_NOT_MATCHES);
-            errors.put(Attributes.PASSWORD_CONFIRMATION, ErrorMessages.PASSWORDS_NOT_MATCHES);
+            errors.put(PASSWORD, ErrorMessages.PASSWORDS_NOT_MATCHES);
+            errors.put(PASSWORD_CONFIRMATION, ErrorMessages.PASSWORDS_NOT_MATCHES);
         }
     }
 

@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="cap" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="custom" %>
 <html>
 <head>
     <title>Super Market | Registered</title>
@@ -50,6 +50,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
 
     </script>
+    <script>
+      jQuery(document).ready(function ($) {
+        $('#lang').change(function(){
+          var lang = $('#lang').val();
+          var url = window.location;
+          if (url.search.includes('?')) {
+            if (url.search.includes('?lang=')) {
+              var search = url.search.substring(url.search.indexOf('lang=' + 1, 'lang='.length + 2));
+              url = url.href.replace(search, '?lang=' + lang);
+            }else{
+              url = "lang" + lang;
+            }
+          }else{
+            url += "?lang=" + lang;
+        }
+        // window.location = url;
+        $.ajax({
+            type: "GET",
+            url: '/language/?lang=' + lang,
+            success: function () {
+              alert('success');
+            },
+            error:function (xhr, ajaxOptions, thrownError) {
+              alert(xhr.status);
+              alert(thrownError);
+      }
+        });
+      });
+      });
+    </script>
     <!-- start-smoth-scrolling -->
 </head>
 <body>
@@ -57,18 +87,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="agileits_header">
     <div class="container">
         <div class="w3l_offers">
-            <p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="all_products.html">SHOP NOW</a></p>
+            <p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products">SHOP NOW</a></p>
         </div>
         <div class="agile-login">
             <ul>
                 <li><a href="registration"> Create Account </a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="login">Login</a></li>
+                <li><a href="logout">Logout</a></li>
+                <custom:locale/>
             </ul>
         </div>
         <div class="product_list_header">
-            <form action="#" method="post" class="last">
-                <input type="hidden" name="cmd" value="_cart">
-                <input type="hidden" name="display" value="1">
+            <form action="cart" method="get" class="last">
                 <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down"
                                                                                     aria-hidden="true"></i></button>
             </form>
@@ -116,7 +146,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="index.html" class="act">Home</a></li>
-                    <li><a href="all_products.html">All products</a></li>
+                    <li><a href="products">All products</a></li>
                 </ul>
             </div>
         </nav>
@@ -139,7 +169,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <h2>Register Here</h2>
         <div class="login-form-grids">
             <h5>profile information</h5>
-            <form name="registration" id="registration" action="registration" method="post">
+            <form name="registration" enctype="multipart/form-data" id="registration" action="registration" method="post">
                 <input type="text" class="text" name="first name" id="first_name"
                 <c:if test="${requestScope.errors != null}">
                 <c:choose>
@@ -172,6 +202,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             Newsletter</label>
                     </div>
                 </div>
+                <br>
+                 <input type="file" name="avatar" multiple="true"/>
                 <h6>Login information</h6>
                 <input type="text" class="text" name="e-mail" id="email"
                 <c:if test="${requestScope.errors != null}">
@@ -212,7 +244,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </c:choose>
                 </c:if>
                 <c:if test="${requestScope.errors == null}">placeholder="Password confirmation..."></c:if>
-                <cap:captcha/>
+                <custom:captcha/>
                 <div class="register-check-box">
                     <div class="check">
                         <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>I accept the terms and
@@ -250,7 +282,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">Short Codes</a>
                     </li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">FAQ's</a></li>
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="all_products.html">Special
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="products">Special
                         Products</a></li>
                 </ul>
             </div>
@@ -265,9 +297,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="col-md-3 w3_footer_grid">
                 <h3>Profile</h3>
                 <ul class="info">
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="all_products.html">Store</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="products">Store</a></li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">My Cart</a></li>
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="login.html">Login</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="login">Login</a></li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="registration">Create Account</a>
                     </li>
                 </ul>
@@ -290,20 +322,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     $(document).ready(function () {
         $().UItoTop({easingType: 'easeOutQuart'});
     });
-
 </script>
 <!-- //here ends scrolling icon -->
-<script src="js/minicart.min.js"></script>
-<script>
-    // Mini Cart
-    paypal.minicart.render({
-        action: '#'
-    });
-    if (~window.location.search.indexOf('reset=true')) {
-        paypal.minicart.reset();
-    }
-
-</script>
 <!-- main slider-banner -->
 <script src="js/skdslider.min.js"></script>
 <link href="css/skdslider.css" rel="stylesheet">

@@ -1,13 +1,8 @@
-<!--
-author: W3layouts
-author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Super Market | Nuts</title>
+    <title>Super Market | Cart</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -49,18 +44,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="agileits_header">
     <div class="container">
         <div class="w3l_offers">
-            <p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="all_products.html">SHOP NOW</a></p>
+            <p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products">SHOP NOW</a></p>
         </div>
         <div class="agile-login">
             <ul>
                 <li><a href="registration"> Create Account </a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="login">Login</a></li>
+                <li><a href="logout">Logout</a></li>
             </ul>
         </div>
         <div class="product_list_header">
-            <form action="#" method="post" class="last">
-                <input type="hidden" name="cmd" value="_cart">
-                <input type="hidden" name="display" value="1">
+            <form action="cart" method="get" class="last">
                 <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down"
                                                                                     aria-hidden="true"></i></button>
             </form>
@@ -108,7 +102,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="index.html" class="act">Home</a></li>
-                    <li><a href="all_products.html">All products</a></li>
+                    <li><a href="products">All products</a></li>
                 </ul>
             </div>
         </nav>
@@ -120,116 +114,63 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
             <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-            <li class="active">Nuts</li>
+            <li class="active">Cart</li>
         </ol>
     </div>
 </div>
 <!-- //breadcrumbs -->
-<!--- gourmet --->
 <div class="products">
-    <div class="container">
-        <div class="col-md-4 products-left">
-            <div class="categories">
-                <h2>Categories</h2>
-                <ul class="cate">
-                    <li><a href="beer.html"><i class="fa fa-arrow-right" aria-hidden="true"></i>Beer</a></li>
-                    <li><a href="nuts.html"><i class="fa fa-arrow-right" aria-hidden="true"></i>Nuts</a></li>
-                    <li><a href="chips.html"><i class="fa fa-arrow-right" aria-hidden="true"></i>Chips</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-8 products-right">
-            <div class="products-right-grid">
-                <div class="products-right-grids">
-                    <div class="sorting">
-                        <select id="country" onchange="change_country(this.value)" class="frm-field required sect">
-                            <option value="null"><i class="fa fa-arrow-right" aria-hidden="true"></i>Default sorting
-                            </option>
-                            <option value="null"><i class="fa fa-arrow-right" aria-hidden="true"></i>Sort by popularity
-                            </option>
-                            <option value="null"><i class="fa fa-arrow-right" aria-hidden="true"></i>Sort by average
-                                rating
-                            </option>
-                            <option value="null"><i class="fa fa-arrow-right" aria-hidden="true"></i>Sort by price
-                            </option>
-                        </select>
-                    </div>
-                    <div class="sorting-left">
-                        <select id="country1" onchange="change_country(this.value)" class="frm-field required sect">
-                            <option value="null"><i class="fa fa-arrow-right" aria-hidden="true"></i>Item on page 9
-                            </option>
-                            <option value="null"><i class="fa fa-arrow-right" aria-hidden="true"></i>Item on page 18
-                            </option>
-                            <option value="null"><i class="fa fa-arrow-right" aria-hidden="true"></i>Item on page 32
-                            </option>
-                            <option value="null"><i class="fa fa-arrow-right" aria-hidden="true"></i>All</option>
-                        </select>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="agile_top_brands_grids">
-                <div class="col-md-4 top_brand_left">
-                    <div class="hover14 column">
-                        <div class="agile_top_brand_left_grid">
-                            <div class="agile_top_brand_left_grid_pos">
-                                <img src="images/offer.png" alt=" " class="img-responsive">
-                            </div>
-                            <div class="agile_top_brand_left_grid1">
-                                <figure>
-                                    <div class="snipcart-item block">
-                                        <div class="snipcart-thumb">
-                                            <a href=""><img title=" " alt=" " src="images/nuts/1.jpg"></a>
-                                            <p>Beer nuts</p>
-                                            <h4>$8.99</h4>
-                                        </div>
-                                        <div class="snipcart-details top_brand_home_details">
-                                            <form action="#" method="post">
-                                                <fieldset>
-                                                    <input type="hidden" name="cmd" value="_cart">
-                                                    <input type="hidden" name="add" value="1">
-                                                    <input type="hidden" name="business" value=" ">
-                                                    <input type="hidden" name="item_name" value="Fortune Sunflower Oil">
-                                                    <input type="hidden" name="amount" value="35.99">
-                                                    <input type="hidden" name="discount_amount" value="1.00">
-                                                    <input type="hidden" name="currency_code" value="USD">
-                                                    <input type="hidden" name="return" value=" ">
-                                                    <input type="hidden" name="cancel_return" value=" ">
-                                                    <input type="submit" name="submit" value="Add to cart"
-                                                           class="button">
-                                                </fieldset>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </figure>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <nav class="numbering">
-                <ul class="pagination paging">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div class="clearfix"></div>
-    </div>
+    <c:if test="${empty requestScope.cart}">
+        <h3>Cart is empty</h3>
+    </c:if>
+    <c:if test="${not empty requestScope.cart}">
+      <table id="cart" class="table table-hover table-condensed">
+        				<thead>
+    						<tr>
+    							<th style="width:50%">Product</th>
+    							<th style="width:10%">Price</th>
+    							<th style="width:8%">Quantity</th>
+    							<th style="width:22%" class="text-center">Subtotal</th>
+    							<th style="width:10%"></th>
+    						</tr>
+    					</thead>
+  <c:forEach items="${requestScope.cart}" var="item">
+              <tbody id="${item.key.id}">
+    						<tr>
+    							<td data-th="Product">
+    								<div class="row">
+    									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+    									<div class="col-sm-10">
+    										<h4 class="nomargin">${item.key.name}</h4>
+    										<p>${item.key.description}</p>
+    									</div>
+    								</div>
+    							</td>
+    							<td data-th="Price">${item.key.price}</td>
+    							<td data-th="Quantity">
+    								<input type="number" id="q${item.key.id}" onchange="changeQuantity(${item.key.id})" class="form-control text-center" value="${item.value}">
+    							</td>
+    							<td data-th="Subtotal" class="text-center">${(item.key.price * item.value)}</td>
+    							<td class="actions" data-th="">
+    								<button onclick="remove(${item.key.id})" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+    							</td>
+    						</tr>
+    					</tbody>
+              </c:forEach>
+    					<tfoot>
+    						<tr class="visible-xs">
+    							<td class="text-center"><strong>Total ${requestScope.total}</strong></td>
+    						</tr>
+    						<tr>
+    							<td><a href="products" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+    							<td colspan="2" class="hidden-xs"></td>
+    							<td class="hidden-xs text-center"><strong>Total ${requestScope.total}</strong></td>
+    							<td><a href="#" class="btn btn-success btn-block" onclick="makeOrder()">Checkout <i class="fa fa-angle-right"></i></a></td>
+    						</tr>
+    					</tfoot>
+    				</table>
+    </c:if>
 </div>
-<!--- gourmet --->
 <!-- //footer -->
 <div class="footer">
     <div class="container">
@@ -252,7 +193,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">Short Codes</a>
                     </li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">FAQ's</a></li>
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="all_products.html">Special
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="products">Special
                         Products</a></li>
                 </ul>
             </div>
@@ -264,13 +205,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="nuts.html">Nuts</a></li>
                 </ul>
             </div>
-
             <div class="col-md-3 w3_footer_grid">
                 <h3>Profile</h3>
                 <ul class="info">
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="all_products.html">Store</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="products">Store</a></li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">My Cart</a></li>
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="login.html">Login</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="login">Login</a></li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="registration">Create Account</a>
                     </li>
                 </ul>
@@ -279,7 +219,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
     <div class="footer-copy">
-
         <div class="container">
             <p>© 2017 Super Market. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
         </div>
@@ -308,20 +247,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- here stars scrolling icon -->
 <script type="text/javascript">
     $(document).ready(function () {
-        /*
-         var defaults = {
-         containerID: 'toTop', // fading element id
-         containerHoverID: 'toTopHover', // fading element hover id
-         scrollSpeed: 1200,
-         easingType: 'linear'
-         };
-         */
         $().UItoTop({easingType: 'easeOutQuart'});
     });
 
 </script>
 <!-- //here ends scrolling icon -->
-<script src="js/minicart.min.js"></script>
+<%-- <script src="js/minicart.min.js"></script>
 <script>
     // Mini Cart
     paypal.minicart.render({
@@ -331,7 +262,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         paypal.minicart.reset();
     }
 
-</script>
+</script> --%>
 <!-- main slider-banner -->
 <script src="js/skdslider.min.js"></script>
 <link href="css/skdslider.css" rel="stylesheet">
@@ -351,6 +282,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
     });
 
+</script>
+
+<script>
+    function remove(id) {
+        $.ajax({
+            type: "POST",
+            url: "removeItem?item_id=" + id,
+            success: function () {
+                $('#' + id).remove();
+            }
+        });
+    }
+</script>
+
+<script>
+  function changeQuantity(id){
+    var quantity = $('#q' + id).val();
+    $.ajax({
+      type:"GET",
+      url:"changeQuantity?item_id=" + id + "&quantity=" + quantity,
+    });
+  }
+</script>
+<script>
+    function makeOrder() {
+        $.ajax({
+            type: "GET",
+            url: "makeOrder",
+            success: function () {
+                window.location.href = "makeOrder"
+            },
+            error: function () {
+                window.location.href = "/WebShop/login";
+            }
+        });
+    }
 </script>
 <!-- //main slider-banner -->
 </body>

@@ -1,12 +1,10 @@
-package servlet;
+package servlet.user;
 
 import DTO.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
-import repository.UserRepository;
-import service.CaptchaService;
-import service.SessionCaptchaService;
 import service.UserService;
+import service.captcha.SessionCaptchaService;
 import util.Constants;
 
 import javax.servlet.RequestDispatcher;
@@ -16,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class RegistrationServletTest {
@@ -30,11 +26,9 @@ public class RegistrationServletTest {
     public void init() {
         servlet = spy(new RegistrationServlet());
         initUser();
-        CaptchaService service = mock(SessionCaptchaService.class);
 
-        when(servlet.getCaptchaService()).thenReturn(service);
-        when(servlet.getUserService()).thenReturn(new UserService());
-
+        when(servlet.getCaptchaService()).thenReturn( mock(SessionCaptchaService.class));
+        when(servlet.getUserService()).thenReturn( mock(UserService.class));
     }
 
     @Test
@@ -43,10 +37,11 @@ public class RegistrationServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
 
         when(servlet.getCaptchaService().verifyCaptcha(any(), any())).thenReturn(true);
+        when(servlet.getUserService().add(any())).thenReturn(true);
 
         servlet.doPost(request, response);
 
-        assertTrue(servlet.getUserService().contains(user.convertToDomain()));
+        verify(servlet.getUserService()).add(any());
     }
 
     @Test
@@ -58,7 +53,7 @@ public class RegistrationServletTest {
 
         servlet.doPost(request, response);
 
-        assertFalse(servlet.getUserService().contains(user.convertToDomain()));
+        verify(servlet.getUserService(), never()).add(any());
     }
 
     @Test
@@ -67,11 +62,11 @@ public class RegistrationServletTest {
         HttpServletRequest request = initRequest();
         HttpServletResponse response = mock(HttpServletResponse.class);
 
-        when(servlet.getCaptchaService().verifyCaptcha(any(), any())).thenReturn(false);
+        when(servlet.getCaptchaService().verifyCaptcha(any(), any())).thenReturn(true);
 
         servlet.doPost(request, response);
 
-        assertFalse(servlet.getUserService().contains(user.convertToDomain()));
+        verify(servlet.getUserService(), never()).add(any());
     }
 
 
@@ -86,7 +81,7 @@ public class RegistrationServletTest {
         servlet.getUserService().add(user.convertToDomain());
         servlet.doPost(request, response);
 
-        assertTrue(servlet.getUserService().contains(user.convertToDomain()));
+        verify(servlet.getUserService()).exist(any());
     }
 
     private void initUser() {
@@ -103,11 +98,11 @@ public class RegistrationServletTest {
     private HttpServletRequest initRequest() {
         HttpServletRequest request = mock(HttpServletRequest.class);
 
-        when(request.getParameter(Constants.Attributes.FIRST_NAME)).thenReturn(user.getFirstName());
-        when(request.getParameter(Constants.Attributes.LAST_NAME)).thenReturn(user.getLastName());
-        when(request.getParameter(Constants.Attributes.EMAIL)).thenReturn(user.getEmail());
-        when(request.getParameter(Constants.Attributes.PASSWORD)).thenReturn(user.getPassword());
-        when(request.getParameter(Constants.Attributes.PASSWORD_CONFIRMATION)).thenReturn(user.getPasswordConfirmation());
+        when(request.getParameter(Constants.Attributes.User.FIRST_NAME)).thenReturn(user.getFirstName());
+        when(request.getParameter(Constants.Attributes.User.LAST_NAME)).thenReturn(user.getLastName());
+        when(request.getParameter(Constants.Attributes.User.EMAIL)).thenReturn(user.getEmail());
+        when(request.getParameter(Constants.Attributes.User.PASSWORD)).thenReturn(user.getPassword());
+        when(request.getParameter(Constants.Attributes.User.PASSWORD_CONFIRMATION)).thenReturn(user.getPasswordConfirmation());
         when(request.getParameter(Constants.Attributes.CAPTCHA)).thenReturn(SOME_CAPTCHA);
         when(request.getSession()).thenReturn(mock(HttpSession.class));
 

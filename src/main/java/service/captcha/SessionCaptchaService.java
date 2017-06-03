@@ -1,4 +1,4 @@
-package service;
+package service.captcha;
 
 import util.CaptchaWrapper;
 import util.Constants;

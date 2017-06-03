@@ -1,13 +1,8 @@
-<!--
-author: W3layouts
-author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><html>
 <html>
 <head>
-    <title>Super Market | Login</title>
+    <title>Super Market | Order</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -30,6 +25,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- js -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <!-- //js -->
+    <!-- start-smoth-scrolling -->
     <script type="text/javascript" src="js/move-top.js"></script>
     <script type="text/javascript" src="js/easing.js"></script>
     <script type="text/javascript">
@@ -48,18 +44,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="agileits_header">
     <div class="container">
         <div class="w3l_offers">
-            <p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products.html">SHOP NOW</a></p>
+            <p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products">SHOP NOW</a></p>
         </div>
         <div class="agile-login">
             <ul>
                 <li><a href="registration"> Create Account </a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="login">Login</a></li>
+                <li><a href="logout">Logout</a></li>
             </ul>
         </div>
         <div class="product_list_header">
-            <form action="#" method="post" class="last">
-                <input type="hidden" name="cmd" value="_cart">
-                <input type="hidden" name="display" value="1">
+            <form action="cart" method="get" class="last">
                 <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down"
                                                                                     aria-hidden="true"></i></button>
             </form>
@@ -107,7 +102,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="index.html" class="act">Home</a></li>
-                    <li><a href="all_products.html">All products</a></li>
+                    <li><a href="products">All products</a></li>
                 </ul>
             </div>
         </nav>
@@ -119,38 +114,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
             <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-            <li class="active">Login Page</li>
+            <li class="active">All products</li>
         </ol>
     </div>
 </div>
 <!-- //breadcrumbs -->
-<!-- login -->
-<div class="login">
+<!--- gourmet --->
+<div class="products">
     <div class="container">
-        <h2>Login Form</h2>
-        <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
-            <form>
-                <input type="email" placeholder="Email Address" required=" ">
-                <input type="password" placeholder="Password" required=" ">
-                <div class="forgot">
-                    <a href="#">Forgot Password?</a>
-                </div>
-                <input type="submit" value="Login">
-            </form>
-        </div>
-        <h4>For New People</h4>
-        <p><a href="registered.html">Register Here</a> (Or) go back to <a href="index.html">Home<span
-                class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
+      <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
+        <h2>Order details</h2>
+        <form action="makeOrder" method="post">
+          <input type="text" name="payment" id="payment" placeholder="Payment type" required=" ">
+          <input type="text" name="requisites" id="requisites" placeholder="Requisites" required=" ">
+          <input type="submit" value="Make order">
+        </form>
+      </div>
     </div>
+    <div class="clearfix"></div>
 </div>
-<!-- //login -->
+</div>
+<!--- gourmet --->
 <!-- //footer -->
 <div class="footer">
     <div class="container">
         <div class="w3_footer_grids">
             <div class="col-md-3 w3_footer_grid">
                 <h3>Contact</h3>
-
                 <ul class="address">
                     <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>1234k Avenue, 4th block, <span>New York City.</span>
                     </li>
@@ -167,7 +157,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">Short Codes</a>
                     </li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">FAQ's</a></li>
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="all_products.html">Special
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="products">Special
                         Products</a></li>
                 </ul>
             </div>
@@ -182,9 +172,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="col-md-3 w3_footer_grid">
                 <h3>Profile</h3>
                 <ul class="info">
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="all_products.html">Store</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="products">Store</a></li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">My Cart</a></li>
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="login.html">Login</a></li>
+                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="login">Login</a></li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="registration">Create Account</a>
                     </li>
                 </ul>
@@ -221,30 +211,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- here stars scrolling icon -->
 <script type="text/javascript">
     $(document).ready(function () {
-        /*
-         var defaults = {
-         containerID: 'toTop', // fading element id
-         containerHoverID: 'toTopHover', // fading element hover id
-         scrollSpeed: 1200,
-         easingType: 'linear'
-         };
-         */
         $().UItoTop({easingType: 'easeOutQuart'});
     });
 
 </script>
 <!-- //here ends scrolling icon -->
-<script src="js/minicart.min.js"></script>
-<script>
-    // Mini Cart
-    paypal.minicart.render({
-        action: '#'
-    });
-    if (~window.location.search.indexOf('reset=true')) {
-        paypal.minicart.reset();
-    }
-
-</script>
 <!-- main slider-banner -->
 <script src="js/skdslider.min.js"></script>
 <link href="css/skdslider.css" rel="stylesheet">
@@ -263,7 +234,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             $('#responsive_wrapper').width(jQuery(this).val());
         });
     });
-
 </script>
 <!-- //main slider-banner -->
 </body>

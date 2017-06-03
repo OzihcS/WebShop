@@ -5,10 +5,28 @@ package domain;
  */
 public class User {
 
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private String avatar;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getFirstName() {
         return firstName;

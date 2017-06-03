@@ -1,41 +1,64 @@
 package listener;
 
+import db.transaction.TransactionHandler;
+import domain.Cart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import repository.UserRepository;
-import service.CaptchaService;
-import service.ServletContextCaptchaService;
-import service.SessionCaptchaService;
+import service.CartService;
+import service.OrderService;
+import service.ProductService;
 import service.UserService;
-import util.Constants;
+import service.captcha.CaptchaService;
+import service.captcha.ServletContextCaptchaService;
+import service.captcha.SessionCaptchaService;
 import util.Constants.Attributes;
 import util.Constants.CaptchaInitParams;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.util.HashMap;
-import java.util.Map;
 
+import static util.Constants.Attributes.Services.*;
 
 /**
  * Listener which initialise {@link CaptchaService} and {@link UserRepository} with specified params from context.
  */
 public class OnStartServletContextListener implements ServletContextListener {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(OnStartServletContextListener.class);
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         String captchaStorage = servletContextEvent.getServletContext().getInitParameter(Attributes.CAPTCHA);
-        servletContextEvent.getServletContext().setAttribute(Attributes.USER_REPOSITORY,
-                new UserService());
+        TransactionHandler transactionHandler = new TransactionHandler();
 
-        if (captchaStorage.equals(CaptchaInitParams.SESSION)) {
-            servletContextEvent.getServletContext().setAttribute(Attributes.CAPTCHA_SERVICE,
-                    new SessionCaptchaService());
-        } else if (captchaStorage.equals(CaptchaInitParams.SERVLET_CONTEXT)) {
-            servletContextEvent.getServletContext().setAttribute(Attributes.CAPTCHA_SERVICE,
-                    new ServletContextCaptchaService(getServletContextCaptchaServiceInitParam(servletContextEvent)));
-        } else {
-            servletContextEvent.getServletContext().setAttribute(Attributes.CAPTCHA_SERVICE,
-                    new SessionCaptchaService());
+        servletContextEvent.getServletContext().setAttribute(USER_SERVICE,
+                new UserService(transactionHandler));
+        servletContextEvent.getServletContext().setAttribute(PRODUCT_SERVICE,
+                new ProductService(transactionHandler));
+        servletContextEvent.getServletContext().setAttribute(ORDER_SERVICE,
+                new OrderService(transactionHandler));
+        servletContextEvent.getServletContext().setAttribute(CART_SERVICE, new CartService());
+
+        LOGGER.info("Services was loaded");
+
+        switch (captchaStorage) {
+            case CaptchaInitParams.SESSION:
+                servletContextEvent.getServletContext().setAttribute(CAPTCHA_SERVICE,
+                        new SessionCaptchaService());
+                LOGGER.info("Session captcha service was loaded");
+                break;
+            case CaptchaInitParams.SERVLET_CONTEXT:
+                servletContextEvent.getServletContext().setAttribute(CAPTCHA_SERVICE,
+                        new ServletContextCaptchaService(getServletContextCaptchaServiceInitParam(servletContextEvent)));
+                LOGGER.info("Servlet context captcha service was loaded");
+                break;
+            default:
+                servletContextEvent.getServletContext().setAttribute(CAPTCHA_SERVICE,
+                        new SessionCaptchaService());
+                LOGGER.warn("Default captcha service was loaded");
+                break;
         }
     }
 
@@ -51,7 +74,11 @@ public class OnStartServletContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        servletContextEvent.getServletContext().removeAttribute(Attributes.CAPTCHA_SERVICE);
-        servletContextEvent.getServletContext().removeAttribute(Attributes.USER_REPOSITORY);
+        servletContextEvent.getServletContext().removeAttribute(CAPTCHA_SERVICE);
+        servletContextEvent.getServletContext().removeAttribute(USER_SERVICE);
+        servletContextEvent.getServletContext().removeAttribute(PRODUCT_SERVICE);
+        servletContextEvent.getServletContext().removeAttribute(CART_SERVICE);
+        servletContextEvent.getServletContext().removeAttribute(ORDER_SERVICE);
+        LOGGER.info("Services were removed");
     }
 }

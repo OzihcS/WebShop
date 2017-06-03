@@ -1,6 +1,7 @@
-package servlet;
+package servlet.user;
 
 import nl.captcha.servlet.CaptchaServletUtil;
+import servlet.AbstractServlet;
 import util.Constants.ServletPath;
 
 import javax.servlet.ServletException;

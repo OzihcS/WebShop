@@ -1,4 +1,4 @@
-package service;
+package service.captcha;
 
 import util.CaptchaWrapper;
 
@@ -34,7 +34,7 @@ public abstract class CaptchaService {
     /**
      * Gets captcha image.
      *
-     * @param request place where contains captcha id to verify.
+     * @param request place where exist captcha id to verify.
      * @return captcha image.
      */
     public abstract BufferedImage get(HttpServletRequest request);
@@ -43,8 +43,9 @@ public abstract class CaptchaService {
      * Provides captcha verification.
      *
      * @param answer  users answer to verify with captcha.
-     * @param request place where contains captcha id to verify.
+     * @param request place where exist captcha id to verify.
      * @return true if user's answer is correct, otherwise false.
      */
     public abstract boolean verifyCaptcha(String answer, HttpServletRequest request);
+
 }

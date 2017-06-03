@@ -1,4 +1,4 @@
-package service;
+package service.captcha;
 
 import util.CaptchaWrapper;
 import util.Constants.Attributes;
@@ -20,17 +20,16 @@ public class ServletContextCaptchaService extends CaptchaService {
 
     private String storage;
     private Map<String, CaptchaWrapper> captchas;
-    private ScheduledExecutorService invalidator;
     private static final int SESSION_MAX_LIFE_TIME = 15;
 
     public ServletContextCaptchaService(String storage) {
         this.captchas = new ConcurrentHashMap<>();
-                this.invalidator = Executors.newScheduledThreadPool(1,
-                        factory -> {
-                            Thread t = Executors.defaultThreadFactory().newThread(factory);
-                            t.setDaemon(true);
-                            return t;
-                        });
+        ScheduledExecutorService invalidator = Executors.newScheduledThreadPool(1,
+                factory -> {
+                    Thread t = Executors.defaultThreadFactory().newThread(factory);
+                    t.setDaemon(true);
+                    return t;
+                });
         invalidator.scheduleWithFixedDelay(this::invalidate, 1, 1, TimeUnit.MINUTES);
         this.storage = storage;
     }
