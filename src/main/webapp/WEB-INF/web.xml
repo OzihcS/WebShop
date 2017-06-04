@@ -43,6 +43,17 @@
         <param-value>en</param-value>
     </context-param>
 
+    <context-param>
+            <param-name>l10n storage</param-name>
+        <param-value>cookie</param-value>
+        <!--<param-value>session</param-value>-->
+    </context-param>
+    
+    <context-param>
+        <param-name>l10n cookie time</param-name>
+        <param-value>5</param-value>
+    </context-param>
+    
     <!--Listeners-->
 
     <listener>

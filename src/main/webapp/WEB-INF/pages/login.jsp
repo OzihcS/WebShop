@@ -129,7 +129,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- login -->
 <div class="login">
     <div class="container">
-      <custom:user/>
+        <custom:user/>
     </div>
 </div>
 <!-- //login -->

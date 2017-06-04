@@ -60,7 +60,7 @@ public class Constants {
         public static final String PRODUCTS = "products";
     }
 
-    public static final class CaptchaInitParams {
+    public static final class InitParams {
         public static final String SESSION = "session";
         public static final String SERVLET_CONTEXT = "context";
         public static final String SERVLET_CONTEXT_TYPE = "context type";

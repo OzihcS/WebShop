@@ -1,7 +1,6 @@
 package listener;
 
 import db.transaction.TransactionHandler;
-import domain.Cart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import repository.UserRepository;
@@ -13,12 +12,12 @@ import service.captcha.CaptchaService;
 import service.captcha.ServletContextCaptchaService;
 import service.captcha.SessionCaptchaService;
 import util.Constants.Attributes;
-import util.Constants.CaptchaInitParams;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import static util.Constants.Attributes.Services.*;
+import static util.Constants.InitParams.*;
 
 /**
  * Listener which initialise {@link CaptchaService} and {@link UserRepository} with specified params from context.
@@ -44,12 +43,12 @@ public class OnStartServletContextListener implements ServletContextListener {
         LOGGER.info("Services was loaded");
 
         switch (captchaStorage) {
-            case CaptchaInitParams.SESSION:
+            case SESSION:
                 servletContextEvent.getServletContext().setAttribute(CAPTCHA_SERVICE,
                         new SessionCaptchaService());
                 LOGGER.info("Session captcha service was loaded");
                 break;
-            case CaptchaInitParams.SERVLET_CONTEXT:
+            case SERVLET_CONTEXT:
                 servletContextEvent.getServletContext().setAttribute(CAPTCHA_SERVICE,
                         new ServletContextCaptchaService(getServletContextCaptchaServiceInitParam(servletContextEvent)));
                 LOGGER.info("Servlet context captcha service was loaded");
@@ -63,10 +62,10 @@ public class OnStartServletContextListener implements ServletContextListener {
     }
 
     private String getServletContextCaptchaServiceInitParam(ServletContextEvent servletContextEvent) {
-        String servletContextInitParam = servletContextEvent.getServletContext().getInitParameter(CaptchaInitParams.SERVLET_CONTEXT_TYPE);
+        String servletContextInitParam = servletContextEvent.getServletContext().getInitParameter(SERVLET_CONTEXT_TYPE);
 
         if (servletContextInitParam == null || servletContextInitParam.isEmpty()) {
-            return CaptchaInitParams.COOKIE;
+            return COOKIE;
         }
 
         return servletContextInitParam;

@@ -7,6 +7,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="custom" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${requestScope.current_locale}"/>
+<fmt:setBundle basename="lang" var="lang"/>
 <html>
 <head>
     <title>Super Market | Registered</title>
@@ -51,34 +55,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     </script>
     <script>
-      jQuery(document).ready(function ($) {
-        $('#lang').change(function(){
-          var lang = $('#lang').val();
-          var url = window.location;
-          if (url.search.includes('?')) {
-            if (url.search.includes('?lang=')) {
-              var search = url.search.substring(url.search.indexOf('lang=' + 1, 'lang='.length + 2));
-              url = url.href.replace(search, '?lang=' + lang);
-            }else{
-              url = "lang" + lang;
-            }
-          }else{
-            url += "?lang=" + lang;
-        }
-        // window.location = url;
-        $.ajax({
-            type: "GET",
-            url: '/language/?lang=' + lang,
-            success: function () {
-              alert('success');
-            },
-            error:function (xhr, ajaxOptions, thrownError) {
-              alert(xhr.status);
-              alert(thrownError);
-      }
+        jQuery(document).ready(function ($) {
+            $('#lang').change(function () {
+                var lang = $('#lang').val();
+                var url = window.location;
+                if (url.search.includes('?')) {
+                    if (url.search.includes('?lang=')) {
+                        var search = url.search.substring(url.search.indexOf('lang=' + 1, 'lang='.length + 2));
+                        url = url.href.replace(search, '?lang=' + lang);
+                    } else {
+                        url = "lang" + lang;
+                    }
+                } else {
+                    url += "?lang=" + lang;
+                }
+                window.location = url;
+            });
         });
-      });
-      });
     </script>
     <!-- start-smoth-scrolling -->
 </head>
@@ -87,13 +80,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="agileits_header">
     <div class="container">
         <div class="w3l_offers">
-            <p>SALE UP TO 70% OFF. USE CODE "SALE70%" . <a href="products">SHOP NOW</a></p>
         </div>
         <div class="agile-login">
             <ul>
-                <li><a href="registration"> Create Account </a></li>
-                <li><a href="login">Login</a></li>
-                <li><a href="logout">Logout</a></li>
+                <li><a href="registration"><fmt:message key="create.account" bundle="${lang}"/></a></li>
+                <li><a href="login"><fmt:message key="login" bundle="${lang}"/></a></li>
+                <li><a href="logout"><fmt:message key="logout" bundle="${lang}"/></a></li>
                 <custom:locale/>
             </ul>
         </div>
@@ -110,15 +102,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container">
         <div class="w3ls_logo_products_left1">
             <ul class="phone_email">
-                <li><i class="fa fa-phone" aria-hidden="true"></i>Order online or call us : (+0123) 234 567</li>
+                <li><i class="fa fa-phone" aria-hidden="true"></i><fmt:message key="order.or.call" bundle="${lang}"/> :
+                    (+0123) 234 567
+                </li>
             </ul>
         </div>
         <div class="w3ls_logo_products_left">
-            <h1><a href="index.html">super Market</a></h1>
+            <h1><a href="index.html">Super Market</a></h1>
         </div>
         <div class="w3l_search">
             <form action="#" method="post">
-                <input type="search" name="Search" placeholder="Search for a Product..." required="">
+                <input type="search" name="Search" placeholder="<fmt:message key="search" bundle="${lang}"/> "
+                       required="">
                 <button type="submit" class="btn btn-default search" aria-label="Left Align">
                     <i class="fa fa-search" aria-hidden="true"> </i>
                 </button>
@@ -134,7 +129,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container">
         <nav class="navbar navbar-default">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header nav_2">
+            <div class="navbar-header SALE UP TO 70% OFF. USnav_2">
                 <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
                         data-target="#bs-megadropdown-tabs">
                     <span class="sr-only">Toggle navigation</span>
@@ -145,8 +140,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.html" class="act">Home</a></li>
-                    <li><a href="products">All products</a></li>
+                    <li class="active"><a href="index.html" class="act"><fmt:message key="home" bundle="${lang}"/></a>
+                    </li>
+                    <li><a href="products"><fmt:message key="all.products" bundle="${lang}"/></a></li>
                 </ul>
             </div>
         </nav>
@@ -157,8 +153,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-            <li class="active">Register Page</li>
+            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><fmt:message
+                    key="home" bundle="${lang}"/></a></li>
+            <li class="active"><fmt:message key="create.account" bundle="${lang}"/></li>
         </ol>
     </div>
 </div>
@@ -166,10 +163,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- register -->
 <div class="register">
     <div class="container">
-        <h2>Register Here</h2>
+        <h2><fmt:message key="register.here" bundle="${lang}"/></h2>
         <div class="login-form-grids">
-            <h5>profile information</h5>
-            <form name="registration" enctype="multipart/form-data" id="registration" action="registration" method="post">
+            <h5><fmt:message key="profile.info" bundle="${lang}"/></h5>
+            <form name="registration" enctype="multipart/form-data" id="registration" action="registration"
+                  method="post">
                 <input type="text" class="text" name="first name" id="first_name"
                 <c:if test="${requestScope.errors != null}">
                 <c:choose>
@@ -182,7 +180,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </c:otherwise>
                 </c:choose>
                 </c:if>
-                <c:if test="${requestScope.errors == null}">placeholder="First Name"></c:if>
+                <c:if test="${requestScope.errors == null}">placeholder="<fmt:message key="first.name"
+                                                                                      bundle="${lang}"/>"></c:if>
                 <input type="text" class="text" name="last name" id="last_name"
                 <c:if test="${requestScope.errors != null}">
                 <c:choose>
@@ -195,16 +194,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </c:otherwise>
                 </c:choose>
                 </c:if>
-                <c:if test="${requestScope.errors == null}">placeholder="Last Name..."></c:if>
+                <c:if test="${requestScope.errors == null}">placeholder="<fmt:message key="last.name" bundle="${lang}"/>"></c:if>
                 <div class="register-check-box">
                     <div class="check">
-                        <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>Subscribe to
-                            Newsletter</label>
+                        <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i><fmt:message
+                                key="subscrie" bundle="${lang}"/></label>
                     </div>
                 </div>
                 <br>
-                 <input type="file" name="avatar" multiple="true"/>
-                <h6>Login information</h6>
+                <input type="file" name="avatar" multiple="true"/>
+                <h6><fmt:message key="login.info" bundle="${lang}"/></h6>
                 <input type="text" class="text" name="e-mail" id="email"
                 <c:if test="${requestScope.errors != null}">
                 <c:choose>
@@ -217,7 +216,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </c:otherwise>
                 </c:choose>
                 </c:if>
-                <c:if test="${requestScope.errors == null}">placeholder="Email..."></c:if>
+                <c:if test="${requestScope.errors == null}">placeholder="<fmt:message key="email" bundle="${lang}"/>..."></c:if>
                 <input type="password" class="text" name="password" id="pass"
                 <c:if test="${requestScope.errors != null}">
                 <c:choose>
@@ -226,11 +225,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                        style="background-color:#ffff66">
                 </c:when>
                 <c:otherwise>
-                    placeholder="Password...">
+                    placeholder="<fmt:message key="password" bundle="${lang}"/>">
                 </c:otherwise>
                 </c:choose>
                 </c:if>
-                <c:if test="${requestScope.errors == null}">placeholder="Password..."></c:if>
+                <c:if test="${requestScope.errors == null}">placeholder="<fmt:message key="password" bundle="${lang}"/>"></c:if>
                 <input type="password" class="text" name="password confirmation" id="confirm_pass"
                 <c:if test="${requestScope.errors != null}">
                 <c:choose>
@@ -239,23 +238,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                        style="background-color:#ffff66">
                 </c:when>
                 <c:otherwise>
-                    placeholder="Password confirmation...">
+                    placeholder="<fmt:message key="password.confirmation" bundle="${lang}"/>">
                 </c:otherwise>
                 </c:choose>
                 </c:if>
-                <c:if test="${requestScope.errors == null}">placeholder="Password confirmation..."></c:if>
+                <c:if test="${requestScope.errors == null}">placeholder="<fmt:message key="password.confirmation"
+                                                                                      bundle="${lang}"/>"></c:if>
                 <custom:captcha/>
                 <div class="register-check-box">
                     <div class="check">
-                        <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>I accept the terms and
-                            conditions</label>
+                        <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i><fmt:message
+                                key="terms.and.conditions" bundle="${lang}"/> </label>
                     </div>
                 </div>
-                <input type="submit" id="register" value="Register" name="register"/>
+                <input type="submit" id="register" value="<fmt:message key="register" bundle="${lang}"/>"
+                       name="register"/>
             </form>
-        </div>
-        <div class="register-home">
-            <a href="index.html">Home</a>
         </div>
     </div>
 </div>
@@ -284,14 +282,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="">FAQ's</a></li>
                     <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="products">Special
                         Products</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3 w3_footer_grid">
-                <h3>Category</h3>
-                <ul class="info">
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="beer.html">Beer</a></li>
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="chips.html">Chips</a></li>
-                    <li><i class="fa fa-arrow-right" aria-hidden="true"></i><a href="nuts.html">Nuts</a></li>
                 </ul>
             </div>
             <div class="col-md-3 w3_footer_grid">

@@ -6,7 +6,6 @@ import util.Constants;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -23,20 +22,18 @@ public class LocaleFilter extends BaseFilter {
 
     private String[] locales;
     private String defaultLocale;
-    private ServletContext context;
+    private String store;
+    private int cookieMaxAge;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        loadLocales(filterConfig);
-    }
-
-    /**
-     * Loads locales from {@link ServletContext}
-     *
-     * @param filterConfig {@link FilterConfig} locales to be loaded from.
-     */
-    private void loadLocales(FilterConfig filterConfig) {
         defaultLocale = filterConfig.getServletContext().getInitParameter("default_locale");
+        store = filterConfig.getServletContext().getInitParameter("l10n storage");
+
+        if (Constants.InitParams.COOKIE.equals(store)) {
+            cookieMaxAge = Integer.parseInt(filterConfig.getServletContext().getInitParameter("l10n cookie time"));
+        }
+
         locales = filterConfig.getServletContext().getInitParameter(Constants.Attributes.LOCALES).split(" ");
 
         if (locales.length == 0) {
@@ -45,9 +42,9 @@ public class LocaleFilter extends BaseFilter {
         } else {
             defaultLocale = locales[0];
         }
-        context = filterConfig.getServletContext();
-        context.setAttribute(Constants.Attributes.LOCALES, locales);
-        context.setAttribute(Constants.Attributes.DEFAULT_LOCALE, defaultLocale);
+
+        filterConfig.getServletContext().setAttribute(Constants.Attributes.LOCALES, locales);
+        filterConfig.getServletContext().setAttribute(Constants.Attributes.DEFAULT_LOCALE, defaultLocale);
 
         LOGGER.debug("Default locale loaded to {}", defaultLocale);
     }
@@ -59,10 +56,10 @@ public class LocaleFilter extends BaseFilter {
         if (locale == null) {
             locale = getLocaleFromSession(request);
         }
-
         if (locale == null) {
             locale = defineLocaleFromRequest(request);
         }
+
         LOGGER.info("Locale filter set locale to {}", locale);
         setLocale(request, response, locale);
 
@@ -120,15 +117,18 @@ public class LocaleFilter extends BaseFilter {
 
     private void setLocale(HttpServletRequest request, HttpServletResponse response, String locale) {
         request.setAttribute(Constants.Attributes.CURRENT_LOCALE, locale);
-        setLocaleToCookie(response, locale);
-        setLocaleToSession(request, locale);
+        if (Constants.InitParams.COOKIE.equals(store)) {
+            setLocaleToCookie(response, locale);
+        } else if (Constants.InitParams.SESSION.equals(store)) {
+            setLocaleToSession(request, locale);
+        }
     }
 
     private void setLocaleToCookie(HttpServletResponse response, String locale) {
         Cookie cookie = new Cookie(COOKIES_LOCALE, locale);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(Integer.MAX_VALUE);
+        cookie.setMaxAge(cookieMaxAge);
         response.addCookie(cookie);
     }
 

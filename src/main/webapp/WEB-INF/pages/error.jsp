@@ -10,7 +10,7 @@
 <h1>An error has occurred</h1>
 
 <div style="color: #F00;">
-    Error message:  "${requestScope.errorMessage}"
+    Error message: "${requestScope.errorMessage}"
 </div>
 </body>
 </html>

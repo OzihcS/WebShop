@@ -124,51 +124,56 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <h3>Cart is empty</h3>
     </c:if>
     <c:if test="${not empty requestScope.cart}">
-      <table id="cart" class="table table-hover table-condensed">
-        				<thead>
-    						<tr>
-    							<th style="width:50%">Product</th>
-    							<th style="width:10%">Price</th>
-    							<th style="width:8%">Quantity</th>
-    							<th style="width:22%" class="text-center">Subtotal</th>
-    							<th style="width:10%"></th>
-    						</tr>
-    					</thead>
-  <c:forEach items="${requestScope.cart}" var="item">
-              <tbody id="${item.key.id}">
-    						<tr>
-    							<td data-th="Product">
-    								<div class="row">
-    									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-    									<div class="col-sm-10">
-    										<h4 class="nomargin">${item.key.name}</h4>
-    										<p>${item.key.description}</p>
-    									</div>
-    								</div>
-    							</td>
-    							<td data-th="Price">${item.key.price}</td>
-    							<td data-th="Quantity">
-    								<input type="number" id="q${item.key.id}" onchange="changeQuantity(${item.key.id})" class="form-control text-center" value="${item.value}">
-    							</td>
-    							<td data-th="Subtotal" class="text-center">${(item.key.price * item.value)}</td>
-    							<td class="actions" data-th="">
-    								<button onclick="remove(${item.key.id})" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-    							</td>
-    						</tr>
-    					</tbody>
-              </c:forEach>
-    					<tfoot>
-    						<tr class="visible-xs">
-    							<td class="text-center"><strong>Total ${requestScope.total}</strong></td>
-    						</tr>
-    						<tr>
-    							<td><a href="products" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-    							<td colspan="2" class="hidden-xs"></td>
-    							<td class="hidden-xs text-center"><strong>Total ${requestScope.total}</strong></td>
-    							<td><a href="#" class="btn btn-success btn-block" onclick="makeOrder()">Checkout <i class="fa fa-angle-right"></i></a></td>
-    						</tr>
-    					</tfoot>
-    				</table>
+        <table id="cart" class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th style="width:50%">Product</th>
+                <th style="width:10%">Price</th>
+                <th style="width:8%">Quantity</th>
+                <th style="width:22%" class="text-center">Subtotal</th>
+                <th style="width:10%"></th>
+            </tr>
+            </thead>
+            <c:forEach items="${requestScope.cart}" var="item">
+                <tbody id="${item.key.id}">
+                <tr>
+                    <td data-th="Product">
+                        <div class="row">
+                            <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..."
+                                                                 class="img-responsive"/></div>
+                            <div class="col-sm-10">
+                                <h4 class="nomargin">${item.key.name}</h4>
+                                <p>${item.key.description}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-th="Price">${item.key.price}</td>
+                    <td data-th="Quantity">
+                        <input type="number" id="q${item.key.id}" onchange="changeQuantity(${item.key.id})"
+                               class="form-control text-center" value="${item.value}">
+                    </td>
+                    <td data-th="Subtotal" class="text-center">${(item.key.price * item.value)}</td>
+                    <td class="actions" data-th="">
+                        <button onclick="remove(${item.key.id})" class="btn btn-danger btn-sm"><i
+                                class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </c:forEach>
+            <tfoot>
+            <tr class="visible-xs">
+                <td class="text-center"><strong>Total ${requestScope.total}</strong></td>
+            </tr>
+            <tr>
+                <td><a href="products" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+                </td>
+                <td colspan="2" class="hidden-xs"></td>
+                <td class="hidden-xs text-center"><strong>Total ${requestScope.total}</strong></td>
+                <td><a href="#" class="btn btn-success btn-block" onclick="makeOrder()">Checkout <i
+                        class="fa fa-angle-right"></i></a></td>
+            </tr>
+            </tfoot>
+        </table>
     </c:if>
 </div>
 <!-- //footer -->
@@ -297,13 +302,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 
 <script>
-  function changeQuantity(id){
-    var quantity = $('#q' + id).val();
-    $.ajax({
-      type:"GET",
-      url:"changeQuantity?item_id=" + id + "&quantity=" + quantity,
-    });
-  }
+    function changeQuantity(id) {
+        var quantity = $('#q' + id).val();
+        $.ajax({
+            type: "GET",
+            url: "changeQuantity?item_id=" + id + "&quantity=" + quantity,
+        });
+    }
 </script>
 <script>
     function makeOrder() {

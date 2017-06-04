@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html>
 <html>
 <head>
     <title>Super Market | Order</title>
@@ -122,14 +123,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--- gourmet --->
 <div class="products">
     <div class="container">
-      <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
-        <h2>Order details</h2>
-        <form action="makeOrder" method="post">
-          <input type="text" name="payment" id="payment" placeholder="Payment type" required=" ">
-          <input type="text" name="requisites" id="requisites" placeholder="Requisites" required=" ">
-          <input type="submit" value="Make order">
-        </form>
-      </div>
+        <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
+            <h2>Order details</h2>
+            <form action="makeOrder" method="post">
+                <input type="text" name="payment" id="payment" placeholder="Payment type" required=" ">
+                <input type="text" name="requisites" id="requisites" placeholder="Requisites" required=" ">
+                <input type="submit" value="Make order">
+            </form>
+        </div>
     </div>
     <div class="clearfix"></div>
 </div>

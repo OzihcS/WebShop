@@ -2,8 +2,6 @@ package service.captcha;
 
 import util.CaptchaWrapper;
 import util.Constants.Attributes;
-import util.Constants.CaptchaInitParams;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static util.Constants.InitParams.COOKIE;
 
 public class ServletContextCaptchaService extends CaptchaService {
 
@@ -40,7 +40,7 @@ public class ServletContextCaptchaService extends CaptchaService {
         CaptchaWrapper captcha = create();
         captchas.put(id, captcha);
 
-        if (storage.equals(CaptchaInitParams.COOKIE)) {
+        if (storage.equals(COOKIE)) {
             Cookie cookie = new Cookie(Attributes.CAPTCHA_ID, id);
             response.addCookie(cookie);
         } else {
@@ -55,7 +55,7 @@ public class ServletContextCaptchaService extends CaptchaService {
     public BufferedImage get(HttpServletRequest request) {
         String id;
 
-        if (storage.equals(CaptchaInitParams.COOKIE)) {
+        if (storage.equals(COOKIE)) {
             id = getCookie(request, Attributes.CAPTCHA_ID).getValue();
         } else {
             id = request.getParameter(Attributes.CAPTCHA_ID);
@@ -68,7 +68,7 @@ public class ServletContextCaptchaService extends CaptchaService {
     public boolean verifyCaptcha(String answer, HttpServletRequest request) {
         String id;
 
-        if (storage.equals(CaptchaInitParams.COOKIE)) {
+        if (storage.equals(COOKIE)) {
             id = getCookie(request, Attributes.CAPTCHA_ID).getValue();
         } else {
             id = request.getParameter(Attributes.CAPTCHA_ID);
