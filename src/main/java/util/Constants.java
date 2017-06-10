@@ -105,6 +105,7 @@ public class Constants {
         public static final String PRODUCTS = "/products";
         public static final String SINGLE = "/single";
         public static final String CART = "/cart";
+        public static final String MAKE_ORDER = "/makeOrder";
     }
 
     public static final class DBConfigurations {

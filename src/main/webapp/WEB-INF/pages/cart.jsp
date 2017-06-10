@@ -256,18 +256,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     });
 
 </script>
-<!-- //here ends scrolling icon -->
-<%-- <script src="js/minicart.min.js"></script>
-<script>
-    // Mini Cart
-    paypal.minicart.render({
-        action: '#'
-    });
-    if (~window.location.search.indexOf('reset=true')) {
-        paypal.minicart.reset();
-    }
-
-</script> --%>
 <!-- main slider-banner -->
 <script src="js/skdslider.min.js"></script>
 <link href="css/skdslider.css" rel="stylesheet">
@@ -302,12 +290,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 
 <script>
-    function changeQuantity(id) {
-        var quantity = $('#q' + id).val();
-        $.ajax({
-            type: "GET",
-            url: "changeQuantity?item_id=" + id + "&quantity=" + quantity,
-        });
+  function changeQuantity(id){
+    var quantity = $('#q' + id).val();
+    if (quantity > 0) {
+      $.ajax({
+        type:"GET",
+        url:"changeQuantity?item_id=" + id + "&quantity=" + quantity,
+      });
+    }else {
+      $('#q' + id).val(1);
     }
 </script>
 <script>

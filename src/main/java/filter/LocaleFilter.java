@@ -4,43 +4,48 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Constants;
 
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.Array;
 import java.util.*;
 
 /**
  * Defines and sets current locale.
  */
-public class LocaleFilter extends BaseFilter {
+public class LocaleFilter implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocaleFilter.class);
 
     private static final String COOKIES_LOCALE = "lang";
 
-    private String[] locales;
-    private String defaultLocale;
+    private List<Locale> locales;
+    private Locale defaultLocale;
     private String store;
     private int cookieMaxAge;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        defaultLocale = filterConfig.getServletContext().getInitParameter("default_locale");
+        defaultLocale = new Locale(filterConfig.getServletContext().getInitParameter("default_locale"));
         store = filterConfig.getServletContext().getInitParameter("l10n storage");
+        locales = new ArrayList<>();
 
         if (Constants.InitParams.COOKIE.equals(store)) {
             cookieMaxAge = Integer.parseInt(filterConfig.getServletContext().getInitParameter("l10n cookie time"));
         }
 
-        locales = filterConfig.getServletContext().getInitParameter(Constants.Attributes.LOCALES).split(" ");
+        String[] locales = filterConfig.getServletContext().getInitParameter(Constants.Attributes.LOCALES).split(" ");
 
-        if (locales.length == 0) {
+        for (String l : locales) {
+            this.locales.add(new Locale(l));
+        }
+
+        if (this.locales.size() == 0) {
             LOGGER.error("Locales loading error, locale are set to default - {}", defaultLocale);
-            locales = new String[]{defaultLocale};
+            this.locales = new ArrayList<>();
+            this.locales.add(defaultLocale);
         } else {
-            defaultLocale = locales[0];
+            defaultLocale = this.locales.get(0);
         }
 
         filterConfig.getServletContext().setAttribute(Constants.Attributes.LOCALES, locales);
@@ -50,8 +55,10 @@ public class LocaleFilter extends BaseFilter {
     }
 
     @Override
-    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        String locale = request.getParameter(Constants.Attributes.LANG);
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        String locale = servletRequest.getParameter(Constants.Attributes.LANG);
 
         if (locale == null) {
             locale = getLocaleFromSession(request);
@@ -60,10 +67,19 @@ public class LocaleFilter extends BaseFilter {
             locale = defineLocaleFromRequest(request);
         }
 
+        if (!locales.contains(new Locale(locale))) {
+            locale = defaultLocale.getLanguage();
+        }
+
         LOGGER.info("Locale filter set locale to {}", locale);
         setLocale(request, response, locale);
 
         chain.doFilter(wrapRequest(request, locale), wrapResponse(response, locale));
+    }
+
+    @Override
+    public void destroy() {
+
     }
 
     private String getLocaleFromSession(HttpServletRequest request) {
@@ -74,13 +90,16 @@ public class LocaleFilter extends BaseFilter {
 
     private String getLocaleFromCookie(HttpServletRequest request) {
         Cookie cookie = getCookie(request, COOKIES_LOCALE);
-        String locale = defineLocale(cookie != null ? cookie.getValue() : null);
+        String locale = null;
+        if (cookie != null) {
+            locale = defineLocale(cookie.getValue());
+        }
         return locale == null ? getLocaleFromRequest(request) : locale;
     }
 
     private String getLocaleFromRequest(HttpServletRequest request) {
         String locale = request.getParameter(Constants.Attributes.CURRENT_LOCALE);
-        return locale == null ? defaultLocale : locale;
+        return locale == null ? defaultLocale.getLanguage() : locale;
     }
 
     private Cookie getCookie(HttpServletRequest request, String locale) {
@@ -97,9 +116,9 @@ public class LocaleFilter extends BaseFilter {
     private String defineLocaleFromRequest(HttpServletRequest request) {
         Enumeration<Locale> locales = request.getLocales();
         while (locales.hasMoreElements()) {
-            for (String l : this.locales) {
-                if (l.equals(locales.nextElement())) {
-                    return l;
+            for (Locale l : this.locales) {
+                if (l.getLanguage().equals(locales.nextElement())) {
+                    return l.getLanguage();
                 }
             }
         }
@@ -107,9 +126,9 @@ public class LocaleFilter extends BaseFilter {
     }
 
     private String defineLocale(String locale) {
-        for (String l : locales) {
+        for (Locale l : this.locales) {
             if (l.equals(locale)) {
-                return l;
+                return l.getLanguage();
             }
         }
         return null;
@@ -117,6 +136,7 @@ public class LocaleFilter extends BaseFilter {
 
     private void setLocale(HttpServletRequest request, HttpServletResponse response, String locale) {
         request.setAttribute(Constants.Attributes.CURRENT_LOCALE, locale);
+        request.setAttribute(Constants.Attributes.LOCALES, locales);
         if (Constants.InitParams.COOKIE.equals(store)) {
             setLocaleToCookie(response, locale);
         } else if (Constants.InitParams.SESSION.equals(store)) {
@@ -146,13 +166,7 @@ public class LocaleFilter extends BaseFilter {
 
             @Override
             public Enumeration<Locale> getLocales() {
-                List<Locale> localesList = new ArrayList<>();
-
-                for (String locale : locales) {
-                    localesList.add(new Locale(locale));
-                }
-
-                return Collections.enumeration(localesList);
+                return Collections.enumeration(locales);
             }
         };
         return request;

@@ -12,26 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
-@WebServlet(urlPatterns = "/makeOrder")
+@WebServlet(urlPatterns = Constants.ServletPath.MAKE_ORDER)
 public class MakeOrderServlet extends AbstractServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute(Constants.Attributes.CURRENT_USER);
-        if (user == null) {
-            resp.sendError(401);
-        } else {
-            forward(Constants.Pages.ORDER, req, resp);
-        }
+        forward(Constants.Pages.ORDER, req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute(Constants.Attributes.CURRENT_USER);
-        if (user == null) {
-            resp.sendError(401);
-        }
-
         String payment = getStringParam(req, "payment");
         String requisites = getStringParam(req, "requisites");
 
